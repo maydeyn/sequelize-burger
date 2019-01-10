@@ -3,14 +3,13 @@ var app = express();
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
-var database = require("./models");
+var db = require("./models");
 
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 var exphbs = require("express-handlebars");
-
 app.engine(
   "handlebars",
   exphbs({
@@ -23,7 +22,7 @@ var routes = require("./controllers/burgers_controller");
 app.use(routes);
 
 // listen on port 3000
-database.sequelize.sync().then(function() {
+db.sequelize.sync().then(function() {
   var PORT = process.env.PORT || 3000;
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
